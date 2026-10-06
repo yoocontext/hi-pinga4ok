@@ -1,6 +1,10 @@
 # pyright: reportUnknownVariableType=false
 
-from dishka import Provider, Scope, provide
+from dishka import (
+    Provider,
+    Scope,
+    provide,
+)
 
 from application.interfaces.clock import IClock
 from infra.clock import SystemClock

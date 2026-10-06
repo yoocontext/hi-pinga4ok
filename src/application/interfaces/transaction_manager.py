@@ -1,11 +1,22 @@
-from collections.abc import Iterable, Sequence
+from collections.abc import (
+    Iterable,
+    Sequence,
+)
 from typing import Protocol
 
 
 class ITransactionManager(Protocol):
-    def add(self, *, instance: object) -> None: ...
+    def add(
+        self,
+        *,
+        instance: object,
+    ) -> None: ...
 
-    def add_all(self, *, instances: Iterable[object]) -> None: ...
+    def add_all(
+        self,
+        *,
+        instances: Iterable[object],
+    ) -> None: ...
 
     async def commit(self) -> None: ...
 

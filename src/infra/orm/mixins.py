@@ -1,8 +1,20 @@
-from datetime import UTC, datetime
-from uuid import UUID, uuid7
+from datetime import (
+    UTC,
+    datetime,
+)
+from uuid import (
+    UUID,
+    uuid7,
+)
 
-from sqlalchemy import DateTime, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import (
+    DateTime,
+    Integer,
+)
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+)
 from sqlalchemy.types import Uuid
 
 

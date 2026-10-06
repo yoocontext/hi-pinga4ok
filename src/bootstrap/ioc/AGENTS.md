@@ -23,7 +23,11 @@ Split a provider file by feature when it grows:
 
 ```python
 class DmProvider(Provider):
-    order_dm = provide(AlchemyOrderDm, provides=IOrderDm, scope=Scope.REQUEST)
+    order_dm = provide(
+        AlchemyOrderDm,
+        provides=IOrderDm,
+        scope=Scope.REQUEST,
+    )
 
 
 class UseCasesProvider(Provider):

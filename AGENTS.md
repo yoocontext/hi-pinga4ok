@@ -71,13 +71,24 @@ Public methods read as a scenario: a short sequence of named steps. Move
 mechanics into private methods, functions, or other components.
 
 ```python
-async def renew(self, *, subscription: Subscription, at: datetime) -> Payment:
-    payment = self._create_payment(subscription=subscription, at=at)
+async def renew(
+    self,
+    *,
+    subscription: Subscription,
+    at: datetime,
+) -> Payment:
+    payment = self._create_payment(
+        subscription=subscription,
+        at=at,
+    )
 
     # provider rejects repeated charges without the same key
     key = self._idempotency_key(payment=payment)
 
-    await self._provider.charge(payment=payment, key=key)
+    await self._provider.charge(
+        payment=payment,
+        key=key,
+    )
 
     return payment
 ```
@@ -90,6 +101,86 @@ async def renew(self, *, subscription: Subscription, at: datetime) -> Payment:
   mechanism. Do not add one-line wrappers that only rename a call.
 - Do not write defensive code for states that types or invariants already
   exclude.
+
+## Formatting
+
+`ruff format` joins a bracketed construct into one line when it fits, unless
+the last element has a trailing comma. Code stays vertical on purpose: write
+the trailing comma and the formatter keeps the layout.
+
+### One element per line
+
+Put each element on its own line, indented once, and end with a trailing
+comma in:
+
+- `from x import (...)` with two or more names;
+- signatures with any parameter besides `self` or `cls`;
+- calls with two or more keyword arguments;
+- class definitions with two or more bases;
+- dict literals with two or more keys;
+- method chains with two or more calls: wrap them in parentheses, one call
+  per line, each line starting with `.`.
+
+Keep a construct on one line when it has a single element:
+`from x import Y`, `def total(self) -> int:`, `Text(content=content)`.
+
+### Keyword-only parameters
+
+- Put `*` right after `self` or `cls`, or first in a plain function, so
+  callers must pass arguments by name.
+- Pass arguments by name when calling project code. In third-party calls the
+  main positional argument may stay positional: `select(TextOrm)`,
+  `session.add(instance)`.
+- Skip `*` only in dunder methods and where a framework passes arguments
+  positionally.
+
+### Blank lines
+
+Blank lines split code into steps. Put exactly one blank line:
+
+- before `return`, `raise` and `yield`, unless it is the only statement in
+  its block;
+- before and after a statement that spans several lines;
+- before and after `if`, `for`, `while`, `with`, `try` and `match` blocks;
+- between a `try` body and each `except`, `else` and `finally`;
+- between steps of a scenario.
+
+Lines that form one step stay together. Never put a blank line right after a
+line ending with `:`, right inside brackets, or twice in a row inside a
+function or class.
+
+```python
+from sqlalchemy import (
+    Select,
+    select,
+)
+
+
+@dataclass(kw_only=True)
+class TextQueries(
+    BaseQueries,
+    ITextQueries,
+):
+    session: AsyncSession
+
+    async def last(
+        self,
+        *,
+        count: int,
+    ) -> list[Text]:
+        stmt = (
+            select(TextOrm)
+            .order_by(TextOrm.created_at.desc())
+            .limit(count)
+        )
+
+        rows = await self.session.scalars(stmt)
+
+        if not rows:
+            raise TextNotFoundError()
+
+        return [self._to_entity(row=row) for row in rows]
+```
 
 ## Docstrings and comments
 

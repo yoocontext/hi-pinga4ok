@@ -64,7 +64,10 @@ async def unexpected_error_handler(
     )
 
 
-def _status(*, error: ApplicationError) -> int:
+def _status(
+    *,
+    error: ApplicationError,
+) -> int:
     for error_type in type(error).__mro__:
         if error_type in STATUSES:
             return STATUSES[error_type]
@@ -72,12 +75,19 @@ def _status(*, error: ApplicationError) -> int:
     return 400
 
 
-def _code(*, error: ApplicationError) -> str:
+def _code(
+    *,
+    error: ApplicationError,
+) -> str:
     name = type(error).__name__.removesuffix("Error")
+
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
 
 
-def _details(*, error: ApplicationError) -> dict[str, Any]:
+def _details(
+    *,
+    error: ApplicationError,
+) -> dict[str, Any]:
     return {item.name: getattr(error, item.name) for item in fields(error)}
 
 
@@ -91,6 +101,12 @@ def _error_response(
     return JSONResponse(
         status_code=status,
         content=jsonable_encoder(
-            {"error": {"code": code, "message": message, "details": details}}
+            {
+                "error": {
+                    "code": code,
+                    "message": message,
+                    "details": details,
+                },
+            },
         ),
     )

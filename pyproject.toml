@@ -1,9 +1,10 @@
 [project]
-name = "project-name"
+name = "case-opener"
 version = "0.1.0"
-description = "Add your description here"
+description = "Learning project: open cases, collect items, gift them to friends"
 requires-python = ">=3.14"
 dependencies = [
+  "alembic>=1.20.0",
   "asyncpg>=0.30.0",
   "dishka>=1.7.2",
   "fastapi>=0.142.2",
@@ -25,9 +26,15 @@ dev = [
 [tool.ruff]
 line-length = 80
 
+[tool.ruff.format]
+skip-magic-trailing-comma = false
+
 [tool.ruff.lint]
-select = ["E", "F", "I", "C90", "N"]
+select = ["E", "F", "I", "C90", "N", "COM"]
 ignore = ["E203", "E266"]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = true
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "tests"]
