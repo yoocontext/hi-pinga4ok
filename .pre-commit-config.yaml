@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.13
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        entry: uv run pyright
+        language: system
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest (without e2e)
+        entry: sh -c 'PYTHONPATH=src uv run pytest -q -m "not e2e"'
+        language: system
+        pass_filenames: false
+        stages: [manual]
+
+      - id: pytest-e2e
+        name: pytest (e2e)
+        entry: sh -c 'PYTHONPATH=src uv run pytest -q -m e2e --override-ini "addopts="'
+        language: system
+        pass_filenames: false
+        stages: [manual]

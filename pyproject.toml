@@ -1,0 +1,44 @@
+[project]
+name = "project-name"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+  "asyncpg>=0.30.0",
+  "dishka>=1.7.2",
+  "fastapi>=0.142.2",
+  "greenlet>=3.2.2",
+  "pydantic-settings>=2.14.1",
+  "sqlalchemy>=2.0.41",
+  "uvicorn>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+  "pre-commit>=4.2.0",
+  "pyright>=1.1.406",
+  "pytest>=8.4.1",
+  "pytest-cov>=7.0.0",
+  "ruff>=0.11.13",
+]
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "C90", "N"]
+ignore = ["E203", "E266"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "tests"]
+testpaths = ["tests"]
+markers = ["e2e: end-to-end tests through an external entry point"]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["*/tests/*", "*/migrations/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
