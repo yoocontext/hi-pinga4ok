@@ -1,16 +1,16 @@
-name: project-name
+name: case-opener
 
 services:
-  project-name:
-    container_name: project-name
+  case-opener:
+    container_name: case-opener
     build:
       context: ..
       dockerfile: Dockerfile
-    image: project-name
+    image: case-opener
     env_file:
       - ../.dev.env
     environment:
-      PG__HOST: project-name-pg
+      PG__HOST: case-opener-pg
       PG__PORT: "5432"
     ports:
       - "${APP_PORT}:8003"

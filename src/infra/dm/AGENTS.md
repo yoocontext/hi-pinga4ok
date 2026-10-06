@@ -38,7 +38,7 @@ Any other method is a query. Add it to `../queries/` instead.
 One entity → one interface, one dm, one mapper.
 
 ```text
-application/interfaces/dm/payments/payment.py   IPaymentDm
-infra/dm/payments/payment.py                    AlchemyPaymentDm
-infra/dm/mappers/payments/payment.py
+application/interfaces/dm/payment.py   IPaymentDm
+infra/dm/payment.py                    AlchemyPaymentDm
+infra/dm/mappers/payment.py
 ```

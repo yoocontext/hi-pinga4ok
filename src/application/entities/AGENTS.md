@@ -20,11 +20,19 @@ class Order:
     status: OrderStatus
     paid_at: datetime | None = None
 
-    def mark_paid(self, *, at: datetime) -> Self:
+    def mark_paid(
+        self,
+        *,
+        at: datetime,
+    ) -> Self:
         if self.status is not OrderStatus.PENDING:
             raise OrderNotPendingError(order_id=self.id)
 
-        return replace(self, status=OrderStatus.PAID, paid_at=at)
+        return replace(
+            self,
+            status=OrderStatus.PAID,
+            paid_at=at,
+        )
 ```
 
 - Group fields by meaning, separated by a blank line.
@@ -37,6 +45,7 @@ class Order:
 
 ## File structure
 
-One file per entity, grouped by domain: `entities/orders/order.py`.
+One file per entity, directly in `entities/`: `entities/order.py`.
+Do not add a folder that would hold a single entity file.
 Entities that exist only inside another entity live in its file.
 Declare entity errors next to the entity.

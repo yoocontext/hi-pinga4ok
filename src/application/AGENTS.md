@@ -69,8 +69,8 @@ class OrderNotPendingError(InvalidStateError):
 One component → one interface.
 
 ```text
-infra/dm/payments/payment.py
-→ interfaces/dm/payments/payment.py
+infra/dm/payment.py
+→ interfaces/dm/payment.py
 
 infra/queries/billing/autopay.py
 → interfaces/queries/billing/autopay.py

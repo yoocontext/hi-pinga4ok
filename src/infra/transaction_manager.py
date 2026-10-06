@@ -1,4 +1,7 @@
-from collections.abc import Iterable, Sequence
+from collections.abc import (
+    Iterable,
+    Sequence,
+)
 from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,10 +11,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 class AlchemyTransactionManager:
     session: AsyncSession
 
-    def add(self, *, instance: object) -> None:
+    def add(
+        self,
+        *,
+        instance: object,
+    ) -> None:
         self.session.add(instance)
 
-    def add_all(self, *, instances: Iterable[object]) -> None:
+    def add_all(
+        self,
+        *,
+        instances: Iterable[object],
+    ) -> None:
         self.session.add_all(instances)
 
     async def commit(self) -> None:
